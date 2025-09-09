@@ -59,20 +59,20 @@ layout = dbc.Container([
 
                     html.Div([
                         html.Div([
-                            html.Label("Industry"),
+                            html.Label("Industry", style = {'fontSize' : '18px'}),
                             dcc.Dropdown(
                                 id="industry_page2",
                                 options=[{"label": k, "value": k} for k in series_identifiers],
                                 value="Construction",
                                 clearable=False,
-                                style={"width": "200px"}
+                                style={"width": "200px", 'fontSize':'14px', 'textAlign':'left'}
                             )
                         ], style={"marginRight": "20px"}),
 
                         html.Div([
-                            html.Label("Year"),
+                            html.Label("Year", style = {'fontSize' : '18px'}),
                             dcc.Dropdown(id="year_page2", clearable=False, style={"width": "120px"})
-                        ], style={"marginRight": "20px"}),
+                        ], style={"width": "200px", 'fontSize':'14px', 'textAlign':'center'}),
 
                         html.Div([
                             html.Label("Month"),
