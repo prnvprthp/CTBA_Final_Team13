@@ -21,4 +21,5 @@ app.layout = html.Div([
 ],className='Divstyle')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 8050))  # use Render's PORT or default 8050
+    app.run_server(host="0.0.0.0", port=port, debug=True)
