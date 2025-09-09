@@ -7,12 +7,12 @@ server = app.server
 app.layout = html.Div([
     dbc.NavbarSimple(
         children=[
-            dbc.NavLink("Home", href="/", active="exact"),
-            dbc.NavLink("Page One", href="/FinalPage1", active="exact"),
-            dbc.NavLink("Page 2", href="/FinalPage2", active="exact"),
-            dbc.NavLink("Page 3", href="/FinalPage3", active="exact")
+            dbc.NavLink("Introduction", href="/", active="exact", className='headernav'),
+            dbc.NavLink("Employement series", href="/FinalPage1", active="exact", className='headernav'),
+            dbc.NavLink("Choropleth", href="/FinalPage2", active="exact", className='headernav'),
+            dbc.NavLink("Wage Series", href="/FinalPage3", active="exact", className='headernav')
         ],
-        brand="Employment Dashboard",
+        brand="Employment & Wage Dash",
         color="primary",
         dark=True,
         className="mb-4"
