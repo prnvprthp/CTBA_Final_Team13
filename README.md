@@ -16,11 +16,11 @@ The idea behind the dashboard is to provide a general overview of employment sta
    This time series is customizable to show the industries that the user selects on the checkbox. THe data is sourced from the FRED average hourly wage for non-supervisory employees for given industry. Non-supervisory employees were used because the dataset goes back far further, and we wanted to focus the analysis on production-oriented employees that make up the bulk of the workforce in the industries.
 
 How to Run:
-The 'final' csv is required to run the dashboard. The other datasets are sourced using the FRED API, but the amount of requests required to build the employment by state and industry dataframe made the application too slow. The csv should be included in the zip file. The three page files within the pages folder are also required. As long as the full zip file has been downloaded, unzipped, and unaltered, all that should be required to run the file is to run the app.py file.
+The 'final' csv is required to run the dashboard. The other datasets are sourced using the FRED API, but the amount of requests required to build the employment by state and industry dataframe made the application too slow. The csv should be included in the zip file, and the python files used to request the information and build the CSV are also included. The three page files within the pages folder are also required. As long as the full zip file has been downloaded, unzipped, and unaltered, all that should be required to run the file is to run the app.py file.
 
 Data Sources:
 Page One: FRED ID: 'USMINE', 'USCONS', 'MANEMP', 'USTPU','USINFO', 'USFIRE', 'USPBS', 'USEHS', 'USLAH', 'USSERV', 'USGOVT', 'JHGDPBRINDX'
-Page Two: FRED ID: Every combination of state code and the following IDs: 'NRMN', 'CONS'
-, 'MFG', 'TRAD', 'INFO', 'FIRE', 'PBSV', 'EDUH', 'LEIH', 'SRVO', 'GOVT'
+
+Page Two: FRED ID: Every combination of state code and the following IDs: 'NRMN', 'CONS', 'MFG', 'TRAD', 'INFO', 'FIRE', 'PBSV', 'EDUH', 'LEIH', 'SRVO', 'GOVT'
 
 Page Three: FRED ID: 'CES1000000008', 'CES2000000008', 'CES3000000008', 'CES4000000008','CES5000000008', 'CES5500000008', 'CES6000000008', 'CES6500000008', 'CES7000000008', 'CES8000000008', 'CPIAUCSL'
