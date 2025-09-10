@@ -26,6 +26,8 @@ __3.__ Average hourly wage by industry over time:
 __How to Run:__
 The 'final' csv is required to run the dashboard. The other datasets are sourced using the FRED API, but the amount of requests required to build the employment by state and industry dataframe made the application too slow. The csv should be included in the zip file, and the python files used to request the information and build the CSV are also included. The three page files within the pages folder are also required. As long as the full zip file has been downloaded, unzipped, and unaltered, all that should be required to run the file is to run the app.py file.
 
+* Please note - to run the server locally, kindly remove the 0.0.0.0 host address. use only "app.run(debug=True)"
+
 ---
 
 __Data Sources:__
