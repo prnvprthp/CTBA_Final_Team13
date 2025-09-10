@@ -10,7 +10,7 @@ AI pointed out that for render to run our code, we would have to make adjustment
 '''
 
 
-app = Dash(__name__,use_pages=True, external_stylesheets=[dbc.themes.FLATLY],suppress_callback_exceptions=True,title="Final Project")
+app = Dash(__name__,use_pages=True, external_stylesheets=[dbc.themes.FLATLY],suppress_callback_exceptions=True,title="Team 13! CTBA")
 server = app.server
 
 app.layout = html.Div([
