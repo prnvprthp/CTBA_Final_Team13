@@ -1,3 +1,9 @@
+'''
+AI usage:
+The only AI usage for this code was to provide a starting point for how to graph two y-axes in Plotly.
+Specifically, the format for adding a trace was identified by AI, but the code to loop it was made by me.
+'''
+
 from dash import Dash, Input, Output, html, dcc, callback
 import dash_bootstrap_components as dbc
 import plotly.express as px
@@ -62,7 +68,7 @@ if response.status_code == 200:
     dfrecess['value'] = pd.to_numeric(dfrecess['value'], errors='coerce')
     dfrecess['date'] = pd.to_datetime(dfrecess['date'], errors='coerce')
 
-# Controls
+# Controls for industry
 controls = html.Div([
     dcc.Checklist(
         options=[{'label': industry, 'value': industry} for industry in series_labels],
@@ -71,6 +77,7 @@ controls = html.Div([
     )
 ])
 
+#GDP recession indicator toggle
 GDP_Toggle = dcc.Checklist(
     options=[{'label': ' Select to toggle Recession Indicator', 'value': 'recess'}],
     id='toggle',
@@ -78,6 +85,7 @@ GDP_Toggle = dcc.Checklist(
     value=[]
 )
 
+#date range picker
 date_control = dcc.DatePickerRange(
     id='daterange',
     start_date=datetime.datetime(year=1960, month=1, day=1),
@@ -135,6 +143,7 @@ layout = html.Div(
     Input('toggle', 'value')
 )
 def update1(industries, start, end, toggle):
+    #filter the dataframes based on user inputs on industry and daterange
     filtered_df = df[df['id'].isin(industries)]
     filtered_df = filtered_df[filtered_df['date'] <= end]
     filtered_df = filtered_df[filtered_df['date'] >= start]
@@ -142,6 +151,7 @@ def update1(industries, start, end, toggle):
     filtered_dfrecess = dfrecess[dfrecess['date'] <= end]
     filtered_dfrecess = filtered_dfrecess[filtered_dfrecess['date'] >= start]
 
+    #check to see if the recession indicator is toggled on and plot the graph accordingly
     if 'recess' in toggle:
         ids = filtered_df['id'].unique()
         fig = make_subplots(specs=[[{'secondary_y': True}]])

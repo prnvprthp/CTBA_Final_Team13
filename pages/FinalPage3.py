@@ -1,3 +1,10 @@
+'''
+AI usage:
+The only AI usage for this code was to provide a starting point for how to graph two y-axes in Plotly.
+Specifically, the format for adding a trace was identified by AI, but the code to loop it was made by me.
+
+'''
+
 import dash
 from dash import Dash, Input, Output, html, dcc, callback
 import dash_bootstrap_components as dbc
@@ -12,14 +19,14 @@ from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 
 dash.register_page(__name__, path="/FinalPage3", name="Page 3")
-
+# FRED API, URL, KEY, AND DATA IDS
 url = 'https://api.stlouisfed.org/fred/series/observations'
 fred_api_key = '1d90de899e9698a2924f22d85c093fe6'
 series_identifiers = ['CES1000000008', 'CES2000000008', 'CES3000000008', 'CES4000000008','CES5000000008', 'CES5500000008', 'CES6000000008', 'CES6500000008', 'CES7000000008', 'CES8000000008']
 series_labels = ['Mining and Logging', 'Construction', 'Manufacturing', 'Trade Transportation and Utilities', 'Information', 'Financial Activities', 'Professional and Business Services', 'Education and Health Services', 'Leisure and Hospitality', 'Other Services']
 
 df = pd.DataFrame(columns = ['realtime_start', 'realtime_end', 'date', 'value', 'id'])
-
+# Fetch industry employment data
 for i in range(len(series_identifiers)):
     
     params = {
@@ -38,7 +45,7 @@ for i in range(len(series_identifiers)):
         dftemp['date'] = pd.to_datetime(dftemp['date'], errors = 'coerce')
         frame = [df, dftemp]
         df = pd.concat(frame)
-
+# Fetch CPI data
 params = {
     'series_id': 'CPIAUCSL',
     'api_key':fred_api_key,
@@ -52,7 +59,7 @@ if response.status_code == 200:
     dfrecess['value'] = pd.to_numeric(dfrecess['value'], errors = 'coerce')
     dfrecess['date'] = pd.to_datetime(dfrecess['date'], errors = 'coerce')
 
-#controls
+#controls for industry
 controls = html.Div([
     dcc.Checklist(
         options = [
@@ -62,16 +69,17 @@ controls = html.Div([
         value = []
     )
 ])
-
+#obsolete line of code, point and laugh.
 Test_output = dcc.Graph(id = 'checkout')
 
+#toggle for CPI line
 CPI_Toggle = dcc.Checklist(
     options = [{'label': ' Select to toggle CPI', 'value': 'recess'}],
     labelStyle={'fontSize':'18px'},
     id = 'toggle',
     value = []
 )
-
+#date range picker
 date_control = dcc.DatePickerRange(id = 'daterange',
                                    start_date = datetime.datetime(year = 1968, month = 1, day = 1),
                                    end_date = datetime.date.today(),
@@ -124,13 +132,14 @@ layout = html.Div(
     Input('toggle', 'value')
 )
 def update3(industries, start, end, toggle):
+    #filter the dataframes based on user inputs on industry and daterange
     filtered_df = df[df['id'].isin(industries)]
     filtered_df = filtered_df[filtered_df['date']<= end]
     filtered_df = filtered_df[filtered_df['date']>= start]
     filtered_dfrecess = dfrecess[dfrecess['date']<= end]
     filtered_dfrecess = filtered_dfrecess[dfrecess['date']>= start]
     
-    
+    #check to see if CPI is toggled on and plot the graph accordingly
     if 'recess' in toggle:
         ids = filtered_df['id'].unique()
         fig = make_subplots(specs = [[{'secondary_y': True}]])

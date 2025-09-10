@@ -1,3 +1,12 @@
+'''
+AI Disclosure : 
+In this .py file,
+    AI was used to aid in setting up the bar graph customization wrt the alignment and positioning of the scale element.
+    AI was used to identify css elements that were not used / incorrectly used
+    AI was used to remove temp variables from the code that was initialized during the planning phase of the project.
+'''
+# This page is not Mobile-responsive...yet..
+
 from dash import html, dcc, Input, Output, register_page, callback
 import dash_bootstrap_components as dbc
 import pandas as pd
@@ -5,7 +14,7 @@ import plotly.express as px
 
 register_page(__name__, path="/FinalPage2", name='Page 2')
 
-# Industry identifiers
+# Industry identifiers (Without the Federal or state code prefixes)
 series_identifiers = {
     'Mining and Logging': 'NRMN', 'Construction': 'CONS', 'Manufacturing': 'MFG',
     'Trade Transportation & Utilities': 'TRAD', 'Information': 'INFO',
@@ -14,7 +23,7 @@ series_identifiers = {
     'Other Services': 'SRVO', 'Government': 'GOVT'
 }
 
-# State code to name mapping
+# State code to name mapping - also used as prefixes when calling the series
 state_code_to_name = {
     'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas','CA': 'California', 'CO': 'Colorado', 'CT': 'Connecticut', 'DE': 'Delaware',
     'DC': 'District of Columbia', 'FL': 'Florida', 'GA': 'Georgia', 'HI': 'Hawaii','ID': 'Idaho', 'IL': 'Illinois', 'IN': 'Indiana', 'IA': 'Iowa',
@@ -25,11 +34,12 @@ state_code_to_name = {
     'WV': 'West Virginia', 'WI': 'Wisconsin', 'WY': 'Wyoming'
 }
 
-# Load and process data
+# Load and process data - The FinalDF dataframe was set up in addpop.py and savetocsv.py. This was done to help with reducing the total time taken to load the datasets. Also limiting the requirement of hitting FRED's APIs constantly (potentially avoiding a maximum request limit / api_key revoke)
 def fetch_data(industry_key):
     df = pd.read_csv("FinalDF.csv")
     df = df.dropna(subset=['date', 'value_empindustry', 'value_nonfarmemp', 'id', 'state'])
 
+    #transformation and manipulation of the data to plot a relevant story of Employee count stats/trends
     df['date'] = pd.to_datetime(df['date'], errors='coerce')
     df['value_empindustry'] = pd.to_numeric(df['value_empindustry'], errors='coerce')
     df['value_nonfarmemp'] = pd.to_numeric(df['value_nonfarmemp'], errors='coerce')
@@ -41,13 +51,13 @@ def fetch_data(industry_key):
 
     return df.dropna(subset=['value', 'state_code', 'date'])
 
-# Default date
+# Default date - avoiding a blank map during the first load.
 try:
     last_date = fetch_data("Construction")['date'].max()
 except Exception:
     last_date = pd.Timestamp("2000-01-01")
 
-# Layout
+# Layout - Breaking down elements on screen to help with 
 layout = html.Div(
     style={'backgroundColor': '#dbe2f0','minHeight': '100vh','padding': '20px','margin':'0px'},
     children = [dbc.Container([
@@ -120,6 +130,8 @@ layout = html.Div(
     Input("year_page2", "value"),
     Input("month_page2", "value")
 )
+
+#Plots with error handling for and gaps in data
 def update_dropdown_and_map(industry, selected_year, selected_month):
     df = fetch_data(industry)
     if df.empty:
@@ -143,7 +155,7 @@ def update_dropdown_and_map(industry, selected_year, selected_month):
         empty_fig = px.choropleth(title="No Data Available for Selected Date")
         return year_options, selected_year, empty_fig, px.bar(title="No Data Available")
 
-    # Choropleth
+    # Choropleth plot
     map_fig = px.choropleth(
         filtered_df,
         locations="state_code",
@@ -161,6 +173,7 @@ def update_dropdown_and_map(industry, selected_year, selected_month):
         filtered_df.nsmallest(5, 'value')
     ])
 
+    # supplementary plot to improve readability with plot summary
     bar_fig = px.bar(
         top_bottom.sort_values('value'),
         x='value',
