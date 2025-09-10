@@ -48,14 +48,16 @@ except Exception:
     last_date = pd.Timestamp("2000-01-01")
 
 # Layout
-layout = dbc.Container([
+layout = html.Div(
+    style={'backgroundColor': '#dbe2f0','minHeight': '100vh','padding': '20px','margin':'0px'},
+    children = [dbc.Container([
     dbc.Row([
         dbc.Col(
             dbc.Card(
                 dbc.CardBody([
-                    html.H2("US Employment by Industry", className="card-title"),
-                    html.P("Percentage of employees in each industry relative to the non-farm workforce."),
-                    html.H5("Select an Industry and Time Period"),
+                    html.H2("US Employment by Industry", style = {'fontSize':'32px', 'marginTop':'6px'}),
+                    html.P("Percentage of employees in each industry. This was achieved by calculating the ration between the employees across industries individually for each state against its Non-Farm Working population.", style = {'paddingLeft':'75px','paddingRight':'75px'}),
+                    html.Br(),
 
                     html.Div([
                         html.Div([
@@ -71,11 +73,13 @@ layout = dbc.Container([
 
                         html.Div([
                             html.Label("Year", style = {'fontSize' : '18px'}),
-                            dcc.Dropdown(id="year_page2", clearable=False, style={"width": "120px"})
-                        ], style={"width": "200px", 'fontSize':'14px', 'textAlign':'center'}),
+                            dcc.Dropdown(id="year_page2", clearable=False, style={"width": "120px", 'fontSize':'14px'})
+                        ],  style={"display": "flex",
+                            "flexDirection": "column","alignItems": "center",    "width": "200px"
+                                }),
 
                         html.Div([
-                            html.Label("Month"),
+                            html.Label("Month", style = {'fontSize' : '18px'}),
                             html.Div(
                                 dcc.Slider(
                                     id="month_page2",
@@ -95,13 +99,16 @@ layout = dbc.Container([
 
                     dcc.Graph(id="choropleth_page2"),
                     #html.H5("Top & Bottom 5 States by Employment %", className="mt-4"),
-                    dcc.Graph(id="bar_chart_page2")
+                    dcc.Graph(id="bar_chart_page2"),
+                    html.Br(),
+                    html.Br(),
+                    html.Small("MSBA Team 13!  Jackson Shelton, Justin Varela, Pranav Prathap, Yixuan Tan", className="footer-small")
                 ])
             ),
             width=12
         )
     ])
-], fluid=True)
+], fluid=True)])
 
 # Callback
 @callback(
@@ -164,6 +171,15 @@ def update_dropdown_and_map(industry, selected_year, selected_month):
         color_continuous_scale='viridis',
         labels={"value": "Employment %", "state": "State"}
     )
-    bar_fig.update_layout(yaxis={'categoryorder': 'total ascending'})
+    bar_fig.update_traces(
+        marker_line_color='black',
+        marker_line_width=1
+    )
+    bar_fig.update_layout(
+        yaxis={'categoryorder': 'total ascending'},
+        plot_bgcolor = 'white',
+        paper_bgcolor = 'white',
+        coloraxis_colorbar = dict(x=1.05, thickness=35)
+    )
 
     return year_options, selected_year, map_fig, bar_fig

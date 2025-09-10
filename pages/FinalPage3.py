@@ -66,7 +66,8 @@ controls = html.Div([
 Test_output = dcc.Graph(id = 'checkout')
 
 CPI_Toggle = dcc.Checklist(
-    options = [{'label': 'CPI', 'value': 'recess'}],
+    options = [{'label': ' Select to toggle CPI', 'value': 'recess'}],
+    labelStyle={'fontSize':'18px'},
     id = 'toggle',
     value = []
 )
@@ -79,13 +80,14 @@ date_control = dcc.DatePickerRange(id = 'daterange',
                                    
 layout = html.Div(
     [
-        html.H3("Industry Average Hourly Wage Statistics", className="page-title"),
+        html.H2("Industry Average Hourly Wage Statistics", style = {'fontSize':'32px', 'marginTop':'6px'}),
         
         html.Div(
             [
                 html.Div(
                     [
                         html.Div("Select Industries to Chart"),
+                        html.Br(),
                         controls,
                     ],
                     className="left-panel"
@@ -106,7 +108,8 @@ layout = html.Div(
         ),
     
         html.Br(),
-        html.A("Home", href="/", className="home-link"),
+        html.Br(),
+        html.Small("MSBA Team 13!  Jackson Shelton, Justin Varela, Pranav Prathap, Yixuan Tan", className="footer-small")
     ], 
     className="page3-grid"
 )
@@ -143,7 +146,7 @@ def update3(industries, start, end, toggle):
         )
         
         fig.update_layout(xaxis_title = 'Year', yaxis_title = 'Average Hourly Wage')
-        fig.update_yaxes(title_text = 'CPI', secondary_y = True)
+        fig.update_yaxes(title_text = ' Select to toggle CPI', secondary_y = True)
         fig.update_yaxes(range = [0, None], secondary_y= False)
     else:
         fig = px.line(filtered_df, x = 'date', y= 'value', color = 'id',

@@ -8,13 +8,14 @@ server = app.server
 app.layout = html.Div([
     dbc.NavbarSimple(
         children=[
-            dbc.NavLink("Introduction", href="/", active="exact", className='headernav'),
-            dbc.NavLink("Employement series", href="/FinalPage1", active="exact", className='headernav'),
-            dbc.NavLink("Choropleth", href="/FinalPage2", active="exact", className='headernav'),
-            dbc.NavLink("Wage Series", href="/FinalPage3", active="exact", className='headernav')
+            dbc.NavLink("Introduction", href="/", active="exact", className='headernav head-hover'),
+            dbc.NavLink("Employment series", href="/FinalPage1", active="exact", className='headernav head-hover'),
+            dbc.NavLink("Choropleth", href="/FinalPage2", active="exact", className='headernav head-hover'),
+            dbc.NavLink("Wage Series", href="/FinalPage3", active="exact", className='headernav head-hover')
         ],
         brand="Employment & Wage Dash",
-        color="primary",
+        brand_style = {'fontFamily':'Montserrat, sans-serif', 'fontSize':'32px', 'fontWeight':'semibold'},
+        color="#080121",
         dark=True,
         className="mb-4"
     ),

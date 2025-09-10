@@ -72,7 +72,7 @@ controls = html.Div([
 ])
 
 GDP_Toggle = dcc.Checklist(
-    options=[{'label': 'Recession Indicator', 'value': 'recess'}],
+    options=[{'label': ' Select to toggle Recession Indicator', 'value': 'recess'}],
     id='toggle',
     labelStyle={'fontSize': '18px'},
     value=[]
@@ -88,41 +88,43 @@ date_control = dcc.DatePickerRange(
 
 # Layout
 layout = html.Div(
-    [
-        html.H3("Industry Employment Statistics", style ={'fontSize':'30px'}),
-        html.P("This page displays a time series of employee headcounts by industry, with options to select industries of interest, set custom date ranges, and add a GDP-based recession indicator. These features let you explore how employment trends shift across industries, especially during recessions."),
-        html.Br(),
-    html.Div(
-        [
-            html.Div(
-                [
-                    html.Div("Select Industries to Chart", className="left-header"),
-                    controls,
-                    html.Br(),
-                ],
-                className="left-panel"
-            ),
-
-            html.Div(
-                [
-                    dcc.Graph(id="checkout-page1", className="chart-area"),
-                    html.Div(
-                        [date_control, GDP_Toggle],
-                        className="controls-row"
-                    ),
-                ],
-                className="right-panel"
-            ),
-        ],
-        className="main-row"
-    ),
-
-        html.Br(),
-        html.A("Home", href="/", className="home-link"),
-    ],
-    className="page1-grid"
+    style={'backgroundColor': '#dbe2f0','minHeight': '100vh','padding': '20px', 'margin':'0px'},
+    children=[
+        html.Div(
+            [
+                html.H2("Industry Employment Statistics", style={'fontSize':'32px', 'marginTop':'6px'}),
+                html.P("This page displays a time series of employee headcounts by industry, with options to select industries of interest, set custom date ranges, and add a GDP-based recession indicator. These features let you explore how employment trends shift across industries, especially during recessions."),
+                html.Br(),
+                html.Br(),
+                html.Div(
+                    [
+                        html.Div(
+                            [
+                                html.Div("Select Industries to Chart", className="left-header"),
+                                controls,
+                                html.Br(),
+                                html.Br(),
+                            ],
+                            className="left-panel"
+                        ),
+                        html.Div(
+                            [
+                                dcc.Graph(id="checkout-page1", className="chart-area"),
+                                html.Div([date_control, GDP_Toggle], className="controls-row"),
+                            ],
+                            className="right-panel"
+                        ),
+                    ],
+                    className="main-row"
+                ),
+                html.Br(),
+                html.Br(),
+                html.Small("MSBA Team 13!  Jackson Shelton, Justin Varela, Pranav Prathap, Yixuan Tan", className="footer-small")
+            ],
+            style={'borderRadius':'8px', 'backgroundColor':'white', 'padding':'30px'}
+        )
+    ]
 )
-
 
 # Callback
 @callback(
